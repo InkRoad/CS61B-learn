@@ -16,6 +16,6 @@
 - 上传到程仓库并附带信息 `git commit -m "<说明>" `  
 
 - 将本地`repo`仓库的`tag`分支和远程仓库同步 `git push <repo> <tag>` 
-$~~$  
+
 这里是环境的配置参考$~~~~$ [here](https://blog.csdn.net/O_ra_Cle/article/details/133961760)  
 
