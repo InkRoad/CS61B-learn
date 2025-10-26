@@ -1,7 +1,8 @@
 # CS61B-learn
 # 这是记录对CS61B作业提交而创建的代码，用于GradeScoop评分系统  
   
-下面是一些git命令的使用
+下面是一些git命令的使用  
+
 拉取远程仓库  
 
 - 克隆别人的仓库到本地  `git remote add <repo> <url>`  `git pull <repo> <tag>` 将远超地址和本地的`repo`绑定，这时的`repo`为一个仓库，然后命令2就将远程的仓库的`tag`分支的文件拉取过来  
@@ -12,6 +13,9 @@
 
 - 将当前目录添加到仓库中 `git .`  
 
-- 上传到程仓库并附带信息 `git commit -m "<说明>"  
+- 上传到程仓库并附带信息 `git commit -m "<说明>" `  
 
 - 将本地`repo`仓库的`tag`分支和远程仓库同步 `git push <repo> <tag>` 
+$~~$  
+这里是环境的配置参考$~~~~$ [here](https://blog.csdn.net/O_ra_Cle/article/details/133961760)  
+
