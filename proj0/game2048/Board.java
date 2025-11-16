@@ -82,7 +82,7 @@ public class Board implements Iterable<Tile> {
 
     /** Places the Tile TILE at column COL, row ROW where COL and ROW are
      * treated as coordinates with respect to the current viewPerspective.
-     *
+     *将tile移动到i行j列，在游戏中左下角为坐标原点，从0开始 纵坐标是Y 横坐标是X
      * Returns whether or not this move is a merge.
      * */
     public boolean move(int col, int row, Tile tile) {

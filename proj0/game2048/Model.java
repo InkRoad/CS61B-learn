@@ -1,5 +1,6 @@
 package game2048;
 
+import java.security.KeyStore;
 import java.util.Formatter;
 import java.util.Observable;
 
@@ -105,16 +106,111 @@ public class Model extends Observable {
      * 3. When three adjacent tiles in the direction of motion have the same
      *    value, then the leading two tiles in the direction of motion merge,
      *    and the trailing tile does not.
+     *
+     * key:按行或列扫描(依输入的side而定)
+     * 对于每一格dest，找其最终的tile，从该格往后找tile，然后看能否合并，最后放在该格子，以此遍历
+     * 对于tile的情况，有四种
+     * 1. 找到两个tile，score1 == score2，则合并后移动到dest
+     * 2. 找到两个tile，score1 ！= score2，则只移动tile1到dest
+     * 3. 找到一个tile，直接移动tile1到dest
+     * 4. 没有tile了，直接去下个行或列
+     *
+     * 因为是扫描，所以巧妙的符合了要求的不能连续合并的要求
      * */
     public boolean tilt(Side side) {
-        boolean changed;
+        boolean changed,modified = false;
         changed = false;
 
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
-
         checkGameOver();
+
+        if(!this.gameOver){
+            int width = this.board.size();
+            switch (side){
+                case NORTH://这里是按列来合并，即destX代表列，destY代表行，坐标原点就是2048的左下角
+                    for(int destX = 0;destX<width;destX++){
+                        int destY = width;
+                        //开始确定每一格的最终tile
+                        while (destY-- != 0){
+                            //找tile1和tile2
+                            int index1 = -1,index2 = -1;
+                            for(int i=destY;i>-1;i--) if(this.board.tile(destX,i) != null) {index1 = i;break;}
+                            for(int i=index1-1;i>-1;i--) if(this.board.tile(destX,i) != null) {index2 = i;break;}
+
+                            if(index1 == -1) break;//0个tile的情况
+                            //1-2tile情况
+                            int score1 = this.board.tile(destX,index1).value(),score2 = index2 == -1?-1:this.board.tile(destX,index2).value();
+                            this.board.move(destX, destY, this.board.tile(destX, index1));
+                            if(score1 == score2){  //同分情况的合并
+                                this.score += score1 + score2;
+                                this.board.move(destX, destY, this.board.tile(destX, index2));
+                            }
+                            changed = ((destY != index1)||(score1 == score2))?true:changed;//对changed的定义，只有board改变时changed才改变
+                        }
+                    }
+                    break;
+                case SOUTH:
+                    for(int destX = 0;destX<width;destX++){
+                        int destY = -1;
+                        while (destY++ != width-1){
+                            int index1 = -1,index2 = -1;
+                            for(int i=destY;i<width;i++) if(this.board.tile(destX,i) != null) {index1 = i;break;}
+                            for(int i=index1+1;i<width;i++) if(this.board.tile(destX,i) != null) {index2 = i;break;}
+                            if(index1 == -1) break;
+                            if(index1 == -1) break;
+                            int score1 = this.board.tile(destX,index1).value(),score2 = index2 == -1?-1:this.board.tile(destX,index2).value();
+                            this.board.move(destX, destY, this.board.tile(destX, index1));
+                            if(score1 == score2){
+                                this.score += score1 + score2;
+                                this.board.move(destX, destY, this.board.tile(destX, index2));
+                            }
+                            changed = ((destY != index1)||(score1 == score2))?true:changed;
+                        }
+                    }
+                    break;
+                case WEST:
+                    for(int destY = 0;destY<width;destY++){
+                        int destX = -1;
+                        while (destX++ != width-1){
+                            int index1 = -1,index2 = -1;
+                            for(int i=destX;i<width;i++) if(this.board.tile(i,destY) != null) {index1 = i;break;}
+                            for(int i=index1+1;i<width;i++) if(this.board.tile(i,destY) != null) {index2 = i;break;}
+
+                            if(index1 == -1) break;
+                            int score1 = this.board.tile(index1,destY).value(),score2 = index2 == -1?-1:board.tile(index2,destY).value();
+                            this.board.move(destX, destY, this.board.tile(index1, destY));
+                            if(score1 == score2){
+                                this.score += score1 + score2;
+                                this.board.move(destX, destY, this.board.tile(index2, destY));
+                            }
+                            changed = ((destX != index1)||(score1 == score2))?true:changed;
+                        }
+                    }
+                    break;
+                case EAST:
+                    for(int destY = 0;destY<width;destY++){
+                        int destX = width;
+                        while (destX-- != 0){
+                            int index1 = -1,index2 = -1;
+                            for(int i=destX;i>-1;i--) if(this.board.tile(i,destY) != null) {index1 = i;break;}
+                            for(int i=index1-1;i>-1;i--) if(this.board.tile(i,destY) != null) {index2 = i;break;}
+
+                            if(index1 == -1) break;
+                            int score1 = this.board.tile(index1,destY).value(),score2 = index2 == -1?-1:board.tile(index2,destY).value();
+                            this.board.move(destX, destY, this.board.tile(index1, destY));
+                            if(score1 == score2){
+                                this.score += score1 + score2;
+                                this.board.move(destX, destY, this.board.tile(index2, destY));
+                            }
+                            changed = ((destX != index1)||(score1 == score2))?true:changed;
+                        }
+                    }
+                    break;
+            }
+        }
+
         if (changed) {
             setChanged();
         }
@@ -137,7 +233,13 @@ public class Model extends Observable {
      *  Empty spaces are stored as null.
      * */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
+        if (b.size() == 0) return true;
+        int len = b.size();
+        for(int i = 0;i<len;i++){
+            for (int j = 0;j<len;j++){
+                if (b.tile(i,j) == null) return true;
+            }
+        }
         return false;
     }
 
@@ -147,7 +249,11 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        for (int i = 0,len = b.size();i<len;i++){
+            for (int j = 0;j<len;j++){
+                if (b.tile(i,j) != null && b.tile(i,j).value() == MAX_PIECE) return true;
+            }
+        }
         return false;
     }
 
@@ -158,7 +264,14 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        if(emptySpaceExists(b)) return true;
+        for (int i = 0,len = b.size();i < len;i++){
+            for (int j = 0;j < len;j++){
+                if((j+1 < len && b.tile(i,j).value() == b.tile(i,j+1).value()) || (i+1 < len && b.tile(i,j).value() == b.tile(i+1,j).value())){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
