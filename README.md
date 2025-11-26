@@ -19,3 +19,4 @@
 
 这里是环境的配置参考$~~~~$ [here](https://blog.csdn.net/O_ra_Cle/article/details/133961760)  
 
+注意Gradescope的密码长度不小于12！

@@ -3,10 +3,11 @@ package DebugExercise;
 /**
  * Exercise for learning how the debug, breakpoint, and step-into
  * feature work.
+ * round(3/4) must be 1 by got 0
  */
 public class DebugExercise1 {
-    public static int divideThenRound(int top, int bottom) {
-        int quotient = top / bottom;
+    public static int divideThenRound(float top, float bottom) {
+        float quotient = top / bottom;
         int result = Math.round(quotient);
         return result;
     }
