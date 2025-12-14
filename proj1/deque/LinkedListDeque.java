@@ -127,7 +127,7 @@ public class LinkedListDeque<T> implements Deque<T>,Iterable<T>{
         return flag;
     }
 
-    public T recurNode(Node p,int index){
+    private T recurNode(Node p,int index){
         if(index == 0) return p.item;
         return recurNode(p.rest,index-1);
     }

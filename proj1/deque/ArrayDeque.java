@@ -83,7 +83,7 @@ public class ArrayDeque<T> implements Deque<T>,Iterable<T>{
         return tail-head == length? length:(tail - head + length)% length;
     }
 
-    public int length(){
+    private int length(){
         return length;
     }
 
