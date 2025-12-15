@@ -1,37 +1,54 @@
 package deque;
 
+import edu.princeton.cs.algs4.StdRandom;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ArrayDequeTest {
 
     @Test
-    public void testAddPrint(){
+    public void testAddRemoveFirst(){
+        int testTimes = 100000;
         ArrayDeque<Integer> ad = new ArrayDeque<>();
-
-        assertTrue(ad.isEmpty());
-        ad.addFirst(1);
-        ad.addFirst(3);
-        ad.addLast(4);
-        ad.addLast(7);
-        ad.addFirst(1);
-        ad.addFirst(3);
-        ad.addLast(4);
-        ad.addLast(1);
-        ad.addLast(3);
-
-
-        assertEquals(9,ad.size());
-        assertEquals(3,(int)ad.removeFirst());
-        assertEquals(3,(int)ad.removeLast());
-        assertEquals(1,(int)ad.removeFirst());
-        assertEquals(1,(int)ad.removeLast());
-        assertFalse(ad.isEmpty());
-
-        ad.printDeque();
-        //System.out.println(-8 % 8);
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        for(int i = 0; i < testTimes; i++) {
+            int selection = StdRandom.uniform(0,3);
+            int randomData = StdRandom.uniform(100);
+            switch (selection){
+                case 0:
+                    ad.addFirst(randomData);
+                    lld.addFirst(randomData);
+                    break;
+                case 1:
+                    assertEquals(lld.removeFirst(),ad.removeFirst());
+                    break;
+                case 2:
+                    assertEquals(lld.isEmpty(),ad.isEmpty());
+            }
+        }
     }
 
+    @Test
+    public void testAddRemoveLast(){
+        int testTimes = 100000;
+        ArrayDeque<Integer> ad = new ArrayDeque<>();
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        for(int i = 0; i < testTimes; i++) {
+            int selection = StdRandom.uniform(0,3);
+            int randomData = StdRandom.uniform(100);
+            switch (selection){
+                case 0:
+                    ad.addLast(randomData);
+                    lld.addLast(randomData);
+                    break;
+                case 1:
+                    assertEquals(lld.removeLast(),ad.removeLast());
+                    break;
+                case 2:
+                    assertEquals(lld.isEmpty(),ad.isEmpty());
+            }
+        }
+    }
 
     @Test
     public void testResize(){
@@ -59,6 +76,39 @@ public class ArrayDequeTest {
         d1.addFirst(1);
         for(int x:d1){
             System.out.println(x);
+        }
+    }
+
+    @Test
+    public void testGetSize() {
+        int testTimes = 100000;
+        ArrayDeque<Integer> ad = new ArrayDeque<>();
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        for(int i = 0; i < testTimes; i++) {
+            int selection = StdRandom.uniform(0,5);
+            int randomData = StdRandom.uniform(100);
+            switch (selection){
+                case 0:
+                    ad.addLast(randomData);
+                    lld.addLast(randomData);
+                    break;
+                case 1:
+                    ad.addFirst(randomData);
+                    lld.addFirst(randomData);
+                    break;
+                case 2:
+                    ad.removeFirst();
+                    lld.removeFirst();
+                    break;
+                case 3:
+                    if (!lld.isEmpty()) {
+                        int index = StdRandom.uniform(0,lld.size());
+                        assertEquals(lld.get(index),ad.get(index));
+                    }
+                    break;
+                case 4:
+                    assertEquals(lld.size(),ad.size());
+            }
         }
     }
 }
