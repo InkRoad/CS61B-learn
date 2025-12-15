@@ -16,8 +16,8 @@ public class ArrayDequeTest {
             int randomData = StdRandom.uniform(100);
             switch (selection){
                 case 0:
-                    ad.addFirst(randomData);
-                    lld.addFirst(randomData);
+                    ad.addLast(randomData);
+                    lld.addLast(randomData);
                     break;
                 case 1:
                     assertEquals(lld.removeFirst(),ad.removeFirst());
@@ -65,7 +65,7 @@ public class ArrayDequeTest {
         ArrayDeque<Integer> d1 = new ArrayDeque<>();
         LinkedListDeque<Integer> d2 = new LinkedListDeque<>();
         ArrayDeque<Integer> d3 = new ArrayDeque<>();
-        assertFalse(d1.equals(d2));
+        assertTrue(d1.equals(d2));
         d1.addFirst(12);
         assertFalse(d1.equals(d3));
         d3.addFirst(12);

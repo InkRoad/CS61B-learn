@@ -31,8 +31,12 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         }
     }
 
+    private int calcFactor(int pos, int convertLength) {
+        return - (pos / convertLength - 1);
+    }
+
     private int relativeIndex(int originlength, int i) {
-        return (i + head + originlength) % originlength;
+        return (i + head + calcFactor(head,originlength) * originlength) % originlength;
     }
 
     private void resizeBigOrless(boolean select) {
@@ -51,7 +55,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (size() == length) {
             resizeBigOrless(true);
         }
-        dequeArr[(--head + length) % length] = item;
+        dequeArr[(--head + calcFactor(head, length) * length) % length] = item;
     }
 
     @Override
@@ -59,7 +63,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (size() == length) {
             resizeBigOrless(true);
         }
-        dequeArr[(tail++ + length) % length] = item;
+        dequeArr[(tail++ + calcFactor(tail, length) * length) % length] = item;
     }
 
     @Override
@@ -79,7 +83,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (size() == 0) {
             return null;
         }
-        T res = dequeArr[(--tail + length) % length];
+        T res = dequeArr[(--tail + calcFactor(tail,length) * length) % length];
         if (size() > 4 && size() * 4 < length) {
             resizeBigOrless(false);
         }
@@ -123,7 +127,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             flag = true;
             int len = size();
             for (int i = 0; i < len; i++) {
-                if (get(i) != ((Deque) o).get(i)) {
+                if (!get(i).equals(((Deque) o).get(i))) {
                     flag = false;
                     break;
                 }
