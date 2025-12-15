@@ -8,11 +8,11 @@ public class ArrayDequeTest {
 
     @Test
     public void testAddRemoveFirst(){
-        int testTimes = 100000;
+        int testTimes = 1000000;
         ArrayDeque<Integer> ad = new ArrayDeque<>();
         LinkedListDeque<Integer> lld = new LinkedListDeque<>();
         for(int i = 0; i < testTimes; i++) {
-            int selection = StdRandom.uniform(0,3);
+            int selection = StdRandom.uniform(0,5);
             int randomData = StdRandom.uniform(100);
             switch (selection){
                 case 0:
@@ -23,6 +23,13 @@ public class ArrayDequeTest {
                     assertEquals(lld.removeFirst(),ad.removeFirst());
                     break;
                 case 2:
+                    ad.addFirst(randomData);
+                    lld.addFirst(randomData);
+                    break;
+                case 3:
+                    assertEquals(lld.removeLast(),ad.removeLast());
+                    break;
+                case 4:
                     assertEquals(lld.isEmpty(),ad.isEmpty());
             }
         }

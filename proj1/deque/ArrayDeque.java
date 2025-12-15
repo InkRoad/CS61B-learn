@@ -31,12 +31,18 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         }
     }
 
-    private int calcFactor(int pos, int convertLength) {
-        return - (pos / convertLength - 1);
+    /*
+    *  计算实际位置，用于解决负数超过最大-length时重新回到尾端
+    * */
+    private int calcRealPos(int pos, int convertLength) {
+        return (pos - (pos / convertLength - 1) * convertLength) % convertLength;
     }
 
+    /*
+    *  将相对数组长度转换为实际位置
+    * */
     private int relativeIndex(int originlength, int i) {
-        return (i + head + calcFactor(head,originlength) * originlength) % originlength;
+        return (i + calcRealPos(head, originlength)) % originlength;
     }
 
     private void resizeBigOrless(boolean select) {
@@ -55,7 +61,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (size() == length) {
             resizeBigOrless(true);
         }
-        dequeArr[(--head + calcFactor(head, length) * length) % length] = item;
+        dequeArr[calcRealPos(--head, length)] = item;
     }
 
     @Override
@@ -63,7 +69,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (size() == length) {
             resizeBigOrless(true);
         }
-        dequeArr[(tail++ + calcFactor(tail, length) * length) % length] = item;
+        dequeArr[calcRealPos(tail++, length)] = item;
     }
 
     @Override
@@ -71,7 +77,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (size() == 0) {
             return null;
         }
-        T res = dequeArr[(head++ + length) % length];
+        T res = dequeArr[calcRealPos(head++, length)];
         if (size() > 4 && size() * 4 < length) {
             resizeBigOrless(false);
         }
@@ -83,7 +89,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (size() == 0) {
             return null;
         }
-        T res = dequeArr[(--tail + calcFactor(tail,length) * length) % length];
+        T res = dequeArr[calcRealPos(--tail, length)];
         if (size() > 4 && size() * 4 < length) {
             resizeBigOrless(false);
         }
