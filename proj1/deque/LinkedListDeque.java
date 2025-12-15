@@ -17,7 +17,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         private int pointer;
         private int size;
 
-        public LldIterator() {
+        LldIterator() {
             pointer = 0;
             size = size();
         }

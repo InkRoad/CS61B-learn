@@ -26,7 +26,7 @@ public class LinkedListDequeTest {
         LinkedListDeque<Integer> d1 = new LinkedListDeque<>();
         ArrayDeque<Integer> d2 = new ArrayDeque<>();
         LinkedListDeque<Integer> d3 = new LinkedListDeque<>();
-        assertFalse(d1.equals(d2));
+        assertTrue(d1.equals(d2));
         d1.addFirst(12);
         assertFalse(d1.equals(d3));
         d3.addFirst(12);

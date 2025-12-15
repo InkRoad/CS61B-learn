@@ -17,7 +17,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private class AdIterator implements Iterator<T> {
         private int pointer;
         private int size;
-        public AdIterator() {
+        AdIterator() {
             pointer = 0;
             size = size();
         }
