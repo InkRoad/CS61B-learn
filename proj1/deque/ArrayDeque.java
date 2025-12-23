@@ -32,7 +32,8 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     /*
-    *  计算实际位置，用于解决负数超过最大-length时重新回到尾端
+    * 计算实际位置，用于解决负数超过最大-length时重新回到尾端
+    * 比例因子(pos/convertLength - 1)来解决该问题
     * */
     private int calcRealPos(int pos, int convertLength) {
         return (pos - (pos / convertLength - 1) * convertLength) % convertLength;
