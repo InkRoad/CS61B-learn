@@ -13,10 +13,16 @@
 
 - 将当前目录添加到仓库中 `git .`  
 
-- 上传到程仓库并附带信息 `git commit -m "<说明>" `  
+- 上传到程仓库并附带信息 `git commit -m "<说明>" 说明请写正在进行的lab\prj    
 
 - 将本地`repo`仓库的`tag`分支和远程仓库同步 `git push <repo> <tag>` 
 
-这里是环境的配置参考$~~~~$ [here](https://blog.csdn.net/O_ra_Cle/article/details/133961760)  
+这里是环境的配置参考 ![here](https://blog.csdn.net/O_ra_Cle/article/details/133961760)  
 
 注意Gradescope的密码长度不小于12！
+
+
+Attention:
+1. lab1中一开始其实是没有`numberNext()`函数的，按照时间线后lab4中添加了`numberNext()`函数用于git合并处理实验。所以lab4的git实验时，手动将其回退到修改前就相当于lab4中的step1了  
+
+2. 
