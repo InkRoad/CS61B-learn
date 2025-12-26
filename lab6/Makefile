@@ -22,7 +22,7 @@ PACKAGE = capers
 # has a different name for this program (such as just "python"), run
 # the Makefile with
 #	make PYTHON=python check
-PYTHON = python3
+PYTHON = python
 
 # Flags to pass to tester.py.
 TESTER_FLAGS =
@@ -43,5 +43,4 @@ clean:
 	$(RM) *~
 	$(RMAKE) -C $(PACKAGE) clean
 	$(RMAKE) -C testing clean
-
 
